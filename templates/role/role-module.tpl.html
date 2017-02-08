@@ -1,0 +1,55 @@
+<!-- Page Header --> 
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+            角色管理
+            <small>
+                <i class="fa fa-angle-right"></i>
+                管理模块
+            </small>
+        </h1>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Page Body -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header ">
+                    <span class="widget-caption">管理模块列表</span>
+                </div>
+                <div class="widget-body" ng-if="moduleList && moduleList.length>0">
+                    <div class="table-scrollable">
+                        <table class="table table-bordered table-striped datatable table-hover" aria-describedby="editabledatatable_info" width="auto">
+                            <thead>
+                                <tr role="row">
+                                    <th class="" tabindex="0" rowspan="1" colspan="1">
+                                        模块名称
+                                    </th>
+                                    <th class="" tabindex="0" rowspan="1" colspan="1">
+                                        是否启用权限管理
+                                    </th>
+                                    <th class="" tabindex="0" rowspan="1" colspan="1">
+                                        
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="odd" ng-repeat="item in moduleList">
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.enable==true?"已启用":"未启用"}}</td>
+                                    <td>
+                                        <a class="btn btn-info btn-xs edit" ng-click="saveEdit(item)" ng-if="item.enable==false">启用</a>
+                                        <a class="btn btn-default btn-xs edit" ng-click="saveEdit(item)" ng-if="item.enable==true">关闭</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ <!-- /Page Body -->

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en" ng-controller="MainCtrl">
+
+<head>
+    <meta charset="utf-8" />
+    <title>管理平台</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title ng-bind="title"></title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- build:css assets/css/main.css -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/beyond.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <!-- endbuild -->
+</head>
+
+<body ng-class="{true:'modal-open'}[isModalOpen]">
+    <!-- loading start -->
+    <div class="loading-container" ng-class="{false: 'loading-inactive'}[isLoading]">
+        <div class="loading-progress">
+            <div class="rotator">
+                <div class="rotator">
+                    <div class="rotator colored">
+                        <div class="rotator">
+                            <div class="rotator colored">
+                                <div class="rotator colored"></div>
+                                <div class="rotator"></div>
+                            </div>
+                            <div class="rotator colored"></div>
+                        </div>
+                        <div class="rotator"></div>
+                    </div>
+                    <div class="rotator"></div>
+                </div>
+                <div class="rotator"></div>
+            </div>
+            <div class="rotator"></div>
+        </div>
+    </div>
+    <!-- loading end -->
+    <!-- top start -->
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-container">
+                <!-- Navbar Barnd -->
+                <div class="navbar-header pull-left">
+                    <a href="#" class="navbar-brand">
+                        <small>
+                            <!-- <img src="assets/img/logo.png" alt=""> -->
+                            <h3 class="page-title">企业版好医生管理后台</h3>
+                        </small>
+                    </a>
+                </div>
+                <div class="navbar-header pull-right">
+                    <div class="navbar-account">
+                        <ul class="account-area" id="right-login-area">
+                            <li>
+                                <a class="login-area icon">
+                                    <i class="icon fa fa-user"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="login-area" data-toggle="dropdown" ng-click="logout()">
+                                    <section>
+                                        <h2><span class="profile txt" ng-bind="staffInfo.name"></span></h2>
+                                    </section>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /Account Area and Settings -->
+            </div>
+        </div>
+    </div>
+    <!-- top end  -->
+    <!-- main start -->
+    <div class="main-container container-fluid" >
+        <!-- Page Container -->
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            <div class="page-sidebar" id="sidebar" ui-view="menu">
+            </div>
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content" ui-view class="l-page island">
+            </div>
+        </div>
+        <!-- /Page Content -->
+    </div>
+    <!-- /Page Container -->
+    <!-- Main Container -->
+    <!-- main end -->
+    <!-- aler or confirm start -->
+    <div id="toast" class="modal modal-message modal-info"  ng-class="{'success':'block', 'error':'block', 'confirm':'block'}[message.type]">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="glyphicon glyphicon-check" ng-if="message.type=='success'"></i>
+                    <i class="fa fa-warning" ng-if="message.type!='success'"></i>
+                </div>
+                <!-- <div class="modal-title">Success</div> -->
+                <div class="modal-body">
+                    <div ng-if="!message.msg.errorCode">{{message.msg}}</div>
+                    <div ng-if="message.msg.errorCode">
+                        <div><b>错误码：</b><span>{{message.msg.errorCode}}<span></div>
+                        <div><b>错误详情：</b><span><span class="break-word">{{message.msg.errorMsg}}</span></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button ng-if="message.type!='confirm'" type="button" class="btn btn-info" ng-click="hideToast()">确定</button>
+                    <button ng-if="message.type=='confirm'" type="button" class="btn btn-info" ng-click="confirmHandler()">确定</button>
+                    <button ng-if="message.type=='confirm'" type="button" class="btn btn-default" ng-click="hideToast()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- aler or confirm end -->
+    <!-- build:js assets/js/vendor.js -->
+    <script type="text/javascript" src="lib/angular/angular.js"></script>
+    <script type="text/javascript" src="lib/angular-animate/angular-animate.min.js"></script>
+    <script type="text/javascript" src="lib/angular-ui-router/release/angular-ui-router.js"></script>
+    <script type="text/javascript" src="lib/angular-bootstrap/ui-bootstrap-tpls-0.14.3.min.js"></script>
+    <script type="text/javascript" src="lib/underscore/underscore-min.js"></script>
+    <!--<script type="text/javascript" src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>-->
+    <!-- endbuild -->
+    <!-- build:js assets/js/main.js -->
+    <script type="text/javascript" src="common/config.js"></script>
+    <script type="text/javascript" src="common/app.js"></script>
+    <script type="text/javascript" src="common/directives/version.js"></script>
+    <script type="text/javascript" src="common/directives/directives.js"></script>
+    <script type="text/javascript" src="common/interceptors/httpInterceptor.js"></script>
+    <script type="text/javascript" src="common/services/dataService.js"></script>
+    <script type="text/javascript" src="common/filters/filters.js"></script>
+    <!--<script type="text/javascript" src="templates/data-table-demo/data-table-demo.js"></script>-->
+    <!--<script type="text/javascript" src="templ ates/header.js"></script>-->
+    <script type="text/javascript" src="templates/menu.js"></script>
+    <!--<script type="text/javascript" src="templates/footer.js"></script>-->
+    <script type="text/javascript" src="templates/business/business.js"></script>
+    <script type="text/javascript" src="templates/business-create/business-create.js"></script>
+    <script type="text/javascript" src="templates/business-employee/business-employee.js"></script>
+    <script type="text/javascript" src="templates/business-sms/business-sms.js"></script>
+    <script type="text/javascript" src="templates/logger/logger.js"></script>
+    <script type="text/javascript" src="templates/business-msg/list.js"></script>
+    <script type="text/javascript" src="templates/common-service/common-service.js"></script>
+    <script type="text/javascript" src="templates/business-service/business-service.js"></script>
+    <script type="text/javascript" src="templates/employee-service/employee-service.js"></script>
+    <script type="text/javascript" src="templates/employee/employee.js"></script>
+    <script type="text/javascript" src="templates/channel-info/channel.js"></script>
+    <script type="text/javascript" src="templates/showcase-info/showcase-info.js"></script>
+    <script type="text/javascript" src="templates/statistic/statistic.js"></script>
+    <script type="text/javascript" src="templates/data-manager/data-manager.js"></script>
+    <script type="text/javascript" src="templates/role/role.js"></script>
+    <script type="text/javascript" src="templates/role/role-authorization.js"></script>
+    <script type="text/javascript" src="templates/role/role-user.js"></script>
+    <script type="text/javascript" src="templates/role/role-module.js"></script>
+    <script type="text/javascript" src="templates/property-insurance-relation/property-insurance-relation.js"></script>
+    <script type="text/javascript" src="js/templates.js"></script>
+
+    <!-- endbuild -->
+
+</body>
+
+</html>

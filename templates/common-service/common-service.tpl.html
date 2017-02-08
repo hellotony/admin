@@ -1,0 +1,220 @@
+<!-- <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap.css" /> -->
+<!-- Page Header -->
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+                            服务管理
+                        </h1>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Page Body -->
+<div class="page-body" ng-controller="commonService">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header ">
+                    <span class="widget-caption">服务库列表</span>
+                </div>
+                <div class="widget-body">
+                    <div class="table-toolbar">
+                        <a ng-click="openModal('create')" class="btn btn-info" data-toggle="modal" data-target=".bs-example-modal-lg">创建服务</a>
+                    </div>
+                    <div ng-if="!commonServicePool || commonServicePool.length==0">服务库中暂时还没有服务，快去添加吧~~</div>
+                    <div ng-if="commonServicePool.length>0">
+                        <div class="table-scrollable">
+                            <table class="table table-bordered table-striped datatable table-hover" aria-describedby="editabledatatable_info" width="auto">
+                                <thead class="bordered-blueberry">
+                                    <tr role="row">
+                                        <!-- <th>id</th> -->
+                                        <th>服务名称</th>
+                                        <th>服务类别</th>
+                                        <th>服务是否可用</th>
+                                        <th>是否为必选服务</th>
+                                        <th>是否为个人服务</th>
+                                        <th>服务权重</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd" ng-repeat="commonService in commonServicePool">
+                                        <!-- <td class="sorting_1">{{commonService.id}}</td> -->
+                                        <td class="sorting_1">{{commonService.name}}</td>
+                                        <td class="sorting_1">{{commonService.serviceName}}</td>
+                                        <td class=" ">{{commonService.enable | booleanShow}}</td>
+                                        <td class=" ">{{commonService.mustHave | booleanShow}}</td>
+                                        <td class=" ">{{commonService.personal | booleanShow}}</td>
+                                        <td class="center  ">{{commonService.weight}}</td>
+                                        <td class=" ">
+                                            <a class="btn btn-info btn-xs edit" ng-click="openModal('edit', commonService)"><i class="fa fa-edit"></i>修改</a>
+                                            <a class="btn btn-info btn-xs delete" ng-click="openModal('show', commonService)"><i class="fa fa-search"></i>查看</a>
+                                            <a class="btn btn-info btn-xs delete" ng-click="forceDisabled(commonService.id)" ng-disabled="commonService.enable==false"><i class="fa fa-power-off"></i>强制禁用</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row DTTTFooter">
+                                <pagination first-text="首页" last-text="末页" previous-text="上一页" next-text="下一页" total-items="pageInfo.totalCount" ng-model="pageInfo.pageIndex" ng-change="pageChanged()" items-per-page="pageInfo.pageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="totalPage" max-size="5" force-ellipses="true"></pagination>
+                                <div class="col-sm-6">
+                                    <div class="dataTables_info" id="editabledatatable_info" role="alert" aria-live="polite" aria-relevant="all">页码: {{pageInfo.pageIndex}} / {{totalPage}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bootbox modal bs-example-modal-lg fade in" tabindex="-1" role="dialog" aria-hidden="false" class="business-modal" style="display: block;" ng-if="modalShow">
+        <div class="modal-dialog modal-lg">
+            <ng-form name="commonServiceModal" id="commonServiceModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" ng-click="closeModal()">×</button>
+                        <h4 class="modal-title" ng-if="opration=='show'">服务详情</h4>
+                        <h4 class="modal-title" ng-if="opration=='edit'">修改服务信息</h4>
+                        <h4 class="modal-title" ng-if="opration=='create'">创建服务信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="bootbox-body">
+                            <div class="row" ng-if="opration=='show'">
+                                <div class="col-md-12 form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">服务名称：</label>
+                                        <div class="col-sm-9 pt-7">{{commonServiceShow.name}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">服务链接：</label>
+                                        <div class="col-sm-9 pt-7">{{commonServiceShow.url}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">服务权重：</label>
+                                        <div class="col-sm-9 pt-7">{{commonServiceShow.weight}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">是否可用：</label>
+                                        <div class="col-sm-9 pt-7">{{commonServiceShow.enable | booleanShow}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">是否为必选服务：</label>
+                                        <div class="col-sm-9 pt-7">{{commonServiceShow.needVerify| booleanShow}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">是否为个人服务：</label>
+                                        <div class="col-sm-9 pt-7">{{commonServiceShow.personal}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">服务类别：</label>
+                                        <div class="col-sm-9 pt-7">{{commonServiceShow.serviceName}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">创建时间：</label>
+                                        <div class="col-sm-9 pt-7">{{commonServiceShow.gmtCreate | formatDate}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">上次修改时间：</label>
+                                        <div class="col-sm-9 pt-7">{{commonServiceShow.gmtModified | formatDate}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">服务图片：</label>
+                                        <div class="col-sm-9 pt-7">
+                                            <img src="{{serviceIconShow}}" ng-show="serviceIconShow!=''">
+                                            <span ng-show="serviceIconShow==''">暂无</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="opration=='edit'||opration=='create'">
+                                <div class="form-horizontal col-md-12" role="form">
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>服务名称</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" placeholder="请输入服务名称" ng-model="commonServiceEdit.name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>服务链接</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" placeholder="请输入服务链接url" ng-model="commonServiceEdit.url" pattern="(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right">服务权重</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" placeholder="请输入0~100的正整数，默认权重值为0" ng-model="commonServiceEdit.weight" pattern="^(0|[1-9]\d?|100)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right">是否为必选服务</label>
+                                        <div class="col-sm-10 pt-7">
+                                            <label>
+                                                <input name="is-mustHave" ng-model="commonServiceEdit.mustHave" ng-value="true" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 是 </span>
+                                            </label>
+                                            <label>
+                                                <input name="is-mustHave" ng-model="commonServiceEdit.mustHave" ng-value="false" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 否</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right">服务是否可用</label>
+                                        <div class="col-sm-10 pt-7">
+                                            <label>
+                                                <input name="is-enable" ng-model="commonServiceEdit.enable" ng-value="true" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 是 </span>
+                                            </label>
+                                            <label>
+                                                <input name="is-enable" ng-model="commonServiceEdit.enable" ng-value="false" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 否</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right">是否为个人服务</label>
+                                        <div class="col-sm-10 pt-7">
+                                            <label>
+                                                <input name="is-personal" ng-model="commonServiceEdit.personal" ng-value="true" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 是 </span>
+                                            </label>
+                                            <label>
+                                                <input name="is-personal" ng-model="commonServiceEdit.personal" ng-value="false" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 否</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right">服务类别</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" ng-model="commonServiceEdit.type" ng-options="commonServiceType.type as commonServiceType.name for commonServiceType in commonServiceTypeList" required>
+                                                <!-- <option value="null">选择服务</option> -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right">服务图片</label>
+                                        <div class="col-sm-10">
+                                            <div>
+                                                <button class="btn btn-blue  modify-img">
+                                                    <span ng-if="opration=='edit'">更改</span>
+                                                    <span ng-if="opration=='create'">选择</span>
+                                                    <input class="col-sm-8" type="file" accept="image/png" class="" onchange="angular.element(this).scope().chooseImg(this)">
+                                                </button>
+                                                <input type="hidden" ng-model="businessEdit.orgLogo">
+                                            </div>
+                                            <div class="org-img-show"><img id="" src="{{serviceIconShow}}"> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" ng-show="opration=='edit' || opration=='create'">
+                        <button data-bb-handler="success" ng-disabled="commonServiceModal.$invalid" type="button" class="btn btn-blue" ng-click="saveServiceEdit()">保存</button>
+                    </div>
+                </div>
+            </ng-form>
+        </div>
+    </div>
+</div>
+<!-- /Page Body -->

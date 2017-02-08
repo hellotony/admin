@@ -1,0 +1,132 @@
+<!-- <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap.css" /> -->
+<!-- Page Header -->
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+                            
+                            
+                                <span><a href="#/business">企业管理</a></span>
+                            <small>
+                                <i class="fa fa-angle-right"></i>
+                                <span><a href="#/business-employee">人群管理</a></span>
+                                <i class="fa fa-angle-right"></i>
+                                <span>人群服务</span>
+                            </small>
+                            
+                        </h1>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Page Body -->
+<div class="page-body" ng-controller="employeeService">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header ">
+                    <span class="widget-caption">人群服务列表</span>
+                </div>
+                <div class="widget-body">
+                    <div class="table-toolbar">
+                        <a ng-click="openModal('create')" class="btn btn-info" data-toggle="modal" data-target=".bs-example-modal-lg">创建人群服务</a>
+                    </div>
+                    <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                        <table class="table table-striped table-hover table-bordered dataTable no-footer">
+                            <thead>
+                                <tr role="row">
+                                    <th>名称</th>
+                                    <th>是否可用</th>
+                                    <th>创建时间</th>
+                                    <th>上次修改时间</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="odd" ng-repeat="employeeTypeService in employeeTypeServicePool">
+                                    <td>{{employeeTypeService.name}}</td>
+                                    <td>{{employeeTypeService.enable | booleanShow}}</td>
+                                    <td>{{employeeTypeService.gmtCreate | formatDate}}</td>
+                                    <td>{{employeeTypeService.gmtModified | formatDate}}</td>
+                                    <td>
+                                        <a class="btn btn-info btn-xs edit" ng-click="openModal('edit', employeeTypeService)"><i class="fa fa-edit"></i>修改</a>
+                                        <a class="btn btn-info btn-xs delete" ng-click="openModal('show', employeeTypeService)"><i class="fa fa-search"></i>查看</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bootbox modal bs-example-modal-lg  fade in" tabindex="-1" role="dialog" aria-hidden="false" class="business-modal" style="display: block;" ng-if="modalShow">
+        <div class="modal-dialog modal-lg">
+            <ng-form name="businessServiceModal" id="businessServiceModal">
+                <div class="modal-content max-h-500">
+                    <div class="modal-header">
+                        <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" ng-click="closeModal()">×</button>
+                        <h4 class="modal-title" ng-if="opration=='show'">服务详情</h4>
+                        <h4 class="modal-title" ng-if="opration=='edit'">修改服务信息：<small>{{employeeTypeServiceName}}</small></h4>
+                        <h4 class="modal-title" ng-if="opration=='create'">创建服务</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="bootbox-body">
+                            <div class="row" ng-if="opration=='show'">
+                                <div class="col-md-12 form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">服务名称：</label>
+                                        <div class="col-sm-9 pt-7">{{employeeTypeServiceShow.name}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">是否可用：</label>
+                                        <div class="col-sm-9 pt-7">{{employeeTypeServiceShow.enable | booleanShow}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">创建时间：</label>
+                                        <div class="col-sm-9 pt-7">{{employeeTypeServiceShow.gmtCreate | formatDate}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">上次修改时间：</label>
+                                        <div class="col-sm-9 pt-7">{{employeeTypeServiceShow.gmtModified | formatDate}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-if="opration=='edit'||opration=='create'">
+                                <div class="form-horizontal col-md-12" role="form">
+                                    <div class="form-group" ng-if="opration=='create'">
+                                        <label for="" class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>服务名称</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" ng-model="employeeTypeServiceEdit.businessServicePoolId" ng-options="employeeService.businessServicePoolId as employeeService.name for employeeService in serviceAvailableList" required>
+                                                <!-- <option value="null">选择服务</option> -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-if="opration=='create'">
+                                        <div class="col-sm-offset-2 col-sm-12">
+                                            温馨提示：未启用服务请在“企业管理”的“服务管理”中修改该服务“是否可用”为“是”后才能为人群创建该服务
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right">服务是否可用</label>
+                                        <div class="col-sm-10 pt-7">
+                                            <label>
+                                                <input name="is-enable" ng-model="employeeTypeServiceEdit.enable" ng-value="true" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 是 </span>
+                                            </label>
+                                            <label>
+                                                <input name="is-enable" ng-model="employeeTypeServiceEdit.enable" ng-value="false" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 否</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" ng-show="opration=='edit' || opration=='create'">
+                        <button data-bb-handler="success" ng-disabled="businessServiceModal.$invalid" type="button" class="btn btn-blue" ng-click="saveServiceEdit()">保存</button>
+                    </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+    <!-- /Page Body -->

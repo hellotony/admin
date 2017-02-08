@@ -1,0 +1,185 @@
+<!-- <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap.css" /> -->
+<!-- Page Header -->
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+                            <a href="#/business">企业管理</a>
+                            <small>
+                                <!-- <i class="fa fa-angle-right"></i>
+                                企业员工管理 -->
+                                <i class="fa fa-angle-right"></i>
+                                创建企业
+                            </small>
+                        </h1>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Page Body -->
+<div class="page-body" ng-controller="createBusiness">
+    <div class="wizard">
+        <ul class="steps">
+            <li ng-class="{'businessCreate': 'active', 'crowdCreate': 'complete'}[createSts]"><span class="step">1</span>创建企业<span class="chevron"></span></li>
+            <li ng-class="{'businessCreate': '', 'crowdCreate': 'active'}[createSts]"><span class="step">2</span>创建企业人群<span class="chevron"></span></li>
+        </ul>
+    </div>
+    <div class="widget-body col-lg-12 col-sm-12 col-xs-12">
+        <div class="create-business">
+            <div ng-if="createSts=='businessCreate'" class="col-lg-2 col-sm-2 col-xs-2 fr business-img-show"><img id="" src="{{imgShow}}"></div>
+            <div ng-if="createSts=='businessCreate'">
+                <ng-form class="form-horizontal col-lg-10 col-sm-10 col-xs-10" name="businessInfoCreate" id="businessInfoCreate">
+                    <div class="form-group">
+                        <label for="business-name" class="col-sm-3 control-label no-padding-right"><span class="fc_f00">* </span>企业名称</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" ng-model="createBusiness.name" id="business-name" placeholder="请输入企业名称" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="business-type" class="col-sm-3 control-label no-padding-right">企业类型</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" ng-model="createBusiness.type">
+                                <option value="1">企业</option>
+                                <option value="2">会所</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">服务是否可用</label>
+                        <div class="col-sm-9 pt-7">
+                            <label>
+                                <input name="is-enable" ng-model="createBusiness.enable" ng-value="true" type="radio" class="form-control colored-blue">
+                                <span class="text"> 是 </span>
+                            </label>
+                            <label>
+                                <input name="is-enable" ng-model="createBusiness.enable" ng-value="false" type="radio" class="form-control colored-blue">
+                                <span class="text"> 否</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-3 control-label no-padding-right">服务开始时间</label>
+                        <div class="col-sm-9">
+                            <p class="input-group">
+                                <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" ng-model="createBusiness.startDate" is-open="startStatus.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabledStartDay(date, mode)" close-text="关闭" />
+                                <span class="input-group-btn">
+                               <button type="button" class="btn btn-default" id="startDate" ng-click="startStatusOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-3 control-label no-padding-right">服务结束时间</label>
+                        <div class="col-sm-9">
+                            <p class="input-group">
+                                <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" ng-model="createBusiness.endDate" is-open="endStatus.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabledEndDay(date, mode)" close-text="关闭" />
+                                <span class="input-group-btn">
+                               <button type="button" class="btn btn-default" id="endDate" ng-click="endStatusOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">logo</label>
+                        <div class="col-sm-7">
+                            <input type="file" accept="image/png" class="form-control" id="orgLogo" ng-model="createBusiness.logo" onchange="angular.element(this).scope().chooseImg(this)">
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-azure" ng-click="show('orgLogo')">预览</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-offset-3 col-sm-10"><span class="fc_f00">图片仅支持png格式</span></label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">启动logo ({{constant.orgStartLogo.width}}*{{constant.orgStartLogo.height}})</label>
+                        <div class="col-sm-7">
+                            <input type="file" accept="image/png" class="form-control" id="orgStartLogo" onchange="angular.element(this).scope().chooseImg(this)">
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-azure" ng-click="show('orgStartLogo')">预览</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-sm-offset-3 col-sm-10"><span class="fc_f00">图片仅支持png格式</span></label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">校验</label>
+                        <div class="col-sm-9 pt-7">
+                            <label>
+                                <input name="is-varify" ng-model="createBusiness.needVerify" ng-value="true" type="radio" class="form-control colored-blue">
+                                <span class="text"> 是 </span>
+                            </label>
+                            <label>
+                                <input name="is-varify" ng-model="createBusiness.needVerify" ng-value="false" type="radio" class="form-control colored-blue">
+                                <span class="text"> 否</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="createBusiness.needVerify==true">
+                        <label for="business-type" class="col-sm-3 control-label no-padding-right">校验选项</label>
+                        <div class="col-sm-9">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" class="colored-blue" ng-click="test()" ng-model="verifyTypes.workNo" ng-true-value="'1'" ng-false-value="''" >
+                                    <span class="text">员工工号</span>
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" class="colored-blue" ng-model="verifyTypes.idNo" ng-true-value="'2'" ng-false-value="''" >
+                                    <span class="text">证件号码</span>
+                                </label>
+                            </div> 
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" class="colored-blue" ng-model="verifyTypes.insNo" ng-true-value="'3'" ng-false-value="''">
+                                    <span class="text">保单号/分单号</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="createBusiness.needVerify==true">
+                        <label class="col-sm-3 control-label no-padding-right">是否全部校验</label>
+                        <div class="col-sm-9 pt-7">
+                            <label>
+                                <input name="is-verifyAll" ng-model="createBusiness.verifyAll" ng-value="true" type="radio" class="form-control colored-blue">
+                                <span class="text"> 是 </span>
+                            </label>
+                            <label>
+                                <input name="is-verifyAll" ng-model="createBusiness.verifyAll" ng-value="false" type="radio" class="form-control colored-blue">
+                                <span class="text"> 否 </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-10">
+                            <button ng-disabled="businessInfoCreate.$invalid" ng-click="saveBusiness()" class="btn btn-azure">保存</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div ng-show="createSts=='crowdCreate'">
+                <ng-form class="form-horizontal col-lg-10 col-sm-10 col-xs-10" name="employeeCreate" id="employeeCreate">
+                    <div class="form-group">
+                        <label for="business-name" class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>人群名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model="employeeCreateName" placeholder="请输入人群名称" required>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="firstCreateCrowd==true">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button ng-disabled="employeeCreate.$invalid" ng-click="saveCrowd()" class="btn btn-azure">保存</button>
+                            <button ng-click="createCrowdComplete()" class="btn btn-azure">暂不创建</button>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="firstCreateCrowd==false">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button ng-disabled="employeeCreate.$invalid" ng-click="saveCrowd()" class="btn btn-azure">保存</button>
+                            <button ng-click="createCrowdComplete()" class="btn btn-azure">创建完成</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Page Body -->

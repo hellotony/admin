@@ -1,0 +1,6 @@
+<div class="row DTTTFooter">
+    <pagination first-text="首页" last-text="末页" previous-text="上一页" next-text="下一页" total-items="pageInfo.totalCount" ng-model="pageInfo.pageIndex" ng-change="pageChanged()" items-per-page="pageInfo.pageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="totalPage"  max-size="5" force-ellipses="true"></pagination>
+    <div class="col-sm-6">
+        <div class="dataTables_info" id="editabledatatable_info" role="alert" aria-live="polite" aria-relevant="all">页码: {{pageInfo.pageIndex}} / {{totalPage}}</div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<!-- Sidebar Menu -->
+                <ul class="nav sidebar-menu" id="main_menu_cmp">
+                    <li ng-repeat="ml in menuList" ng-class="setLi(ml)">
+                        <a ng-click="chooseMenu(ml)">
+                            <i class="menu-icon fa" ng-class="ml.attr"></i>
+                            <span class="menu-text"> {{ml.name}} </span>
+                            <i class="menu-expand" ng-if="ml.submenu"></i>
+                        </a>
+                        <ul class="submenu" ng-if="ml.submenu">
+                        <!-- <ul class="submenu" ng-style="{true: 'display:block', false: 'display:none'}[subMenu.open]" ng-if="ml.submenu" > -->
+                            <li ng-repeat="subMenu in ml.submenu" ng-class="setLi(subMenu)" >
+                                <a ng-click="chooseMenu(subMenu)" class="menu-dropdown">
+                                    <span class="menu-text">{{subMenu.name}}</span>
+                                    <!-- <i class="menu-expand" ng-if="subMenu.submenu"></i> -->
+                                </a>
+                                <!--<ul class="submenu" ng-if="subMenu.submenu" ng-style="{true: 'block', false: 'none'}[subSubMenu.open]">
+                                    <li ng-repeat="subSubMenu in subMenu.submenu" ng-class="setLi(subSubMenu)">
+                                        <a ng-click="chooseMenu(subSubMenu)">
+                                            <i class="menu-icon fa" ng-class="subSubMenu.attr"></i>
+                                            <span class="menu-text">{{subSubMenu.name}}</span>
+                                        </a>
+                                    </li>
+                                </ul>-->
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+<!-- /Sidebar Menu -->

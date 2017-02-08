@@ -1,0 +1,48 @@
+{
+    "dataList": [
+        {
+            "id": 6778,
+            "name": "左工三",
+            "identifyType": 1,
+            "identifyNo": "1232145",
+            "gender": 0,
+            "married": 1,
+            "birthday": "1969-02-03",
+            "serviceStartDate": "2015-10-13",
+            "serviceEndDate": "2016-10-13",
+            "companyFund": "4000",
+            "preferentialFund": "1000"
+        },
+        {
+            "id": 5764,
+            "name": "有和四",
+            "identifyType": 1,
+            "identifyNo": "1232145",
+            "gender": 1,
+            "married": 1,
+            "birthday": "1964-02-03",
+            "serviceStartDate": "2015-1-13",
+            "serviceEndDate": "2016-1-13",
+            "companyFund": "3000",
+            "preferentialFund": "1000"
+        },
+        {
+            "id": 456747,
+            "name": "以要和",
+            "identifyType": 1,
+            "identifyNo": "1232145",
+            "gender": 0,
+            "married": 0,
+            "birthday": "1989-02-03",
+            "serviceStartDate": "2015-10-13",
+            "serviceEndDate": "2016-10-13",
+            "companyFund": "4000",
+            "preferentialFund": "1000"
+        }
+    ],
+    "pager": {
+        "currentPage": 2,
+        "totalPage": 2,
+        "summary": 6
+    }
+}

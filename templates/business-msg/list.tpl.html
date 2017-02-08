@@ -1,0 +1,206 @@
+<!-- <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap.css" /> -->
+<!-- Page Header -->
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+                企业发布管理                        
+        </h1>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Page Body -->
+<div class="page-body" ng-controller="msglist">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget">
+                <div class="widget-header bordered-left bordered-darkorange">
+                    <span class="widget-caption">查找企业消息</span>
+                </div>
+                <!-- <input type="file" id="f" />
+                <input type="button" id="b" value="import" ng-click="importXLS(f.value)" /> -->
+                <div class="widget-body bordered-left bordered-warning">
+                    <form class="">
+                        <div class="form-inline" >
+                            <div class="form-group" style="width:250px;">
+                                <input type="input" class="form-control" placeholder="请输入标题" ng-model="NewsAction.title" style="width:100%;">
+                            </div>
+                            
+
+                          
+                            <button type="button" class="btn btn-default" ng-click="search()">搜索</button>
+                            <button type="button" class="btn btn-default" ng-click="init()">清空</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header ">
+                    <span class="widget-caption">企业消息列表</span>
+                </div>
+                <div class="widget-body">
+                      <div class="table-toolbar">
+                        <a ng-click="openModal('create')" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-lg">创建企业消息</a>
+                    </div>
+
+                  <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                        <table class="table table-striped table-hover table-bordered dataTable no-footer" aria-describedby="editabledatatable_info">
+                            <thead>
+                                <tr role="row" ng-click="sortByString()">
+                                    <th  ng-class="{'DESC': 'sorting_desc', 'ASC': 'sorting_asc'}[(sortString=='id')&&orderBy]" aria-label="id" class="sorting">
+                                        ID
+                                    </th>
+
+                                    <th  ng-class="{'DESC': 'sorting_desc', 'ASC': 'sorting_asc'}[(sortString=='title')&&orderBy]" aria-label="title" class="sorting">
+                                        标题
+                                    </th>
+                                    
+                                     <th  ng-class="{'DESC': 'sorting_desc', 'ASC': 'sorting_asc'}[(sortString=='enable')&&orderBy]" aria-label="enable" class="sorting">
+                                        启用
+                                    </th>
+                                     <th  ng-class="{'DESC': 'sorting_desc', 'ASC': 'sorting_asc'}[(sortString=='gmtCreate')&&orderBy]" aria-label="gmtCreate" class="sorting">
+                                        创建时间
+                                    </th>
+                                    <th  ng-class="{'DESC': 'sorting_desc', 'ASC': 'sorting_asc'}[(sortString=='startDate')&&orderBy]" aria-label="startDate" class="sorting">
+                                        生效日期
+                                    </th>
+                                     <th  ng-class="{'DESC': 'sorting_desc', 'ASC': 'sorting_asc'}[(sortString=='endDate')&&orderBy]" aria-label="endDate" class="sorting">
+                                        失效日期
+                                    </th>
+
+
+                                  
+                                    
+                                    <th>
+                                       
+                                    </th>
+                                </tr>
+                            </thead>
+                            <!-- <tbody ng-repeat="News in NewsList"> -->
+                            <tbody>
+                                <tr ng-repeat="News in NewsList">
+                                    <td class="">{{News.id}}</td>
+                                    <td class=" ">{{News.title}}</td> 
+                                    <td class=" ">{{News.enable?"是":"否"}}</td>
+                                    <td class="">{{News.gmtCreate|formatGmtTime|date : 'yyyy-MM-dd hh:mm:ss'}}</td>
+                                    <td class="">{{News.startDate|formatGmtTime|date : 'yyyy-MM-dd'}}</td>
+                                       <td class="">{{News.endDate|formatGmtTime|date : 'yyyy-MM-dd'}}</td>
+                                    <td ng-click="showComment(News.id)">
+                                        <a class="btn btn-info btn-xs delete" ng-click="openModal('show',News)"><i class="fa fa-search"></i>查看详情</a>
+
+                                        <a class="btn btn-info btn-xs edit" ng-click="openModal('edit',News)"><i class="fa fa-edit"></i>修改</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row DTTTFooter">
+                            <pagination first-text="首页" last-text="末页" previous-text="上一页" next-text="下一页" total-items="pageInfo.totalCount" ng-model="pageInfo.pageIndex" ng-change="pageChanged()" items-per-page="pageInfo.pageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="totalPage" max-size="5" force-ellipses="true"></pagination>
+                            <div class="col-sm-6">
+                                <div class="dataTables_info" id="editabledatatable_info" role="alert" aria-live="polite" aria-relevant="all">页码: {{pageInfo.pageIndex}} / {{totalPage}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="bootbox modal bs-example-modal-lg fade in" tabindex="-1" role="dialog" aria-hidden="false" class="business-modal" style="display: block;" ng-if="modalShow">
+        <div class="modal-dialog modal-lg">
+            <ng-form name="commonServiceModal" id="commonServiceModal" class="{{opration}}">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" ng-click="closeModal()">×</button>
+                        <h4 class="modal-title" ng-if="opration=='show'">企业消息</h4>
+                        <h4 class="modal-title" ng-if="opration=='edit'">修改企业消息</h4>
+                        <h4 class="modal-title" ng-if="opration=='create'">创建企业消息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="bootbox-body">
+                            
+                            <div class="row" >
+                                <div class="form-horizontal col-md-12" role="form">
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>标题</label>
+                                        <div class="col-sm-10">
+                                             <div class="col-sm-9 pt-7 display_on_show">{{newsItem.title}}</div>
+                                            <input type="text" class="form-control display_on_edit" placeholder="请输入标题" ng-model="newsItem.title" required maxlength="50">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>内容</label>
+                                        <div class="col-sm-10">
+                                            <textarea type="text" class="form-control" placeholder="请输入内容" ng-model="newsItem.content" required></textarea>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>是否可用</label>
+                                        <div class="col-sm-10 pt-7">
+                                            <label>
+                                                <input name="is-enable" ng-model="newsItem.enable" ng-value="true" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 是 </span>
+                                            </label>
+                                            <label>
+                                                <input name="is-enable" ng-model="newsItem.enable" ng-value="false" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 否</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>推送人群</label>
+                                        <div class="col-sm-10 pt-7">
+
+
+                                            <label ng-repeat="employeeType in newsItem.employeeTypeNewsList">
+
+                                                <input type="checkbox" class="colored-blue" ng-model="employeeType.selected" ng-true-value="true" ng-false-value="false" checked="{{employeeType.selected?"checked":""}}">
+                                                <span class="text" >{{employeeType.name}}</span>
+
+                                               
+                                            </label>
+                                           
+                                        </div>
+                                    </div>
+
+                                 
+
+                                     <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>开始时间</label>
+                                        <div class="col-sm-10">
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" ng-model="newsItem.startDate" is-open="startDateStatus.opened" min-date="" max-date="" datepicker-options="dateOptions" date-disabled="" close-text="关闭" required readonly="readonly"/>
+                                                <span class="input-group-btn">
+                                                   <button type="button" class="btn btn-default" ng-click="chooseStartDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>结束时间</label>
+                                        <div class="col-sm-10">
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" ng-model="newsItem.endDate" is-open="endDateStatus.opened" min-date="" max-date="" datepicker-options="dateOptions" date-disabled="" close-text="关闭" required readonly="readonly"/>
+                                                <span class="input-group-btn">
+                                                   <button type="button" class="btn btn-default" ng-click="chooseEndDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                   
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" ng-show="opration=='edit' || opration=='create'">
+                            <button data-bb-handler="success" ng-disabled="commonServiceModal.$invalid" type="button" class="btn btn-blue" ng-click="saveNews()">保存</button>
+                        </div>
+                    </div>
+                    </ng-form>
+                </div>
+        </div>
+</div>

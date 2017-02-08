@@ -1,0 +1,315 @@
+<!-- <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap.css" /> -->
+<!-- Page Header -->
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+                            企业管理
+                            <!-- <small>
+                                <i class="fa fa-angle-right"></i>
+                                企业信息管理
+                            </small> -->
+                        </h1>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Page Body -->
+<div class="page-body" ng-controller="business">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget">
+                <div class="widget-header bordered-left bordered-darkorange">
+                    <span class="widget-caption">筛选企业</span>
+                </div>
+                <div class="widget-body bordered-left bordered-warning">
+                    <form class="form-inline" role="form">
+                        <div class="form-group">
+                            <input type="input" class="form-control" placeholder="关键字" ng-model="keywords">
+                        </div>
+                        <button type="button" class="btn btn-default" ng-click="search()">搜索</button>
+                        <button type="button" class="btn btn-default" ng-click="clean()">清空</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header ">
+                    <span class="widget-caption">企业信息</span>
+                </div>
+                <div class="widget-body">
+                    <div class="table-toolbar">
+                        <button ng-click="createBusiness()" class="btn btn-info" data-toggle="modal" data-target=".bs-example-modal-lg">创建企业</button>
+                    </div>
+                    <div ng-if="!businessList || businessList.length==0">抱歉，没有查询到匹配企业</div>
+                    <div ng-if="businessList.length>0">
+                        <div class="table-scrollable">
+                            <table class="table table-bordered table-striped datatable table-hover" aria-describedby="editabledatatable_info" width="auto">
+                                <thead class="bordered-blueberry">
+                                    <tr role="row" ng-click="sortByString()">
+                                        <th>
+                                            企业 id
+                                        </th>
+                                        <th ng-show="sortString=='name'" ng-class="{'DESC': 'sorting_desc', 'ASC': 'sorting_asc'}[orderBy]" rowspan="1" colspan="1" aria-label="name" 企业名称 </th>
+                                            <th ng-show="sortString!='name'" class="sorting" rowspan="1" colspan="1" aria-label="name">
+                                                企业名称
+                                            </th>
+                                            <th ng-show="sortString=='type'" ng-class="{'DESC': 'sorting_desc', 'ASC': 'sorting_asc'}[orderBy]" rowspan="1" colspan="1" aria-label="type">
+                                                企业类型
+                                            </th>
+                                            <th ng-show="sortString!='type'" class="sorting" rowspan="1" colspan="1" aria-label="type">
+                                                企业类型
+                                            </th>
+                                            <th ng-show="sortString=='gmtCreate'" ng-class="{'DESC': 'sorting_desc', 'ASC': 'sorting_asc'}[orderBy]" rowspan="1" colspan="1" aria-label="gmtCreate">
+                                                创建时间
+                                            </th>
+                                            <th ng-show="sortString!='gmtCreate'" class="sorting" rowspan="1" colspan="1" aria-label="gmtCreate">
+                                                创建时间
+                                            </th>
+                                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="">
+                                            </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd" ng-repeat="business in businessList">
+                                        <td>{{business.id}}</td>
+                                        <td class="sorting_1">{{business.name}}</td>
+                                        <td class=" ">{{business.type | businessType}}</td>
+                                        <td class=" ">{{business.gmtCreate | formatDate}}</td>
+                                        <td class="lh-26">
+                                            <a class="btn btn-info btn-xs delete" ng-click="businessQuery(business.id)"><i class="fa fa-search"></i>查看</a>
+                                            <a ng-disabled="business.sourceFrom!=1" class="btn btn-info btn-xs edit" ng-click="businessModify(business.id)"><i class="fa fa-edit"></i>修改</a>
+                                            <a ng-disabled="business.sourceFrom!=1" href="#/business-service" class="btn btn-info btn-xs delete" ng-click="setLocalStorage(business.id)"><i class="fa fa-bar-chart-o"></i>服务管理</a>
+                                            <a ng-disabled="business.sourceFrom!=1" href="#/business-employee" class="btn btn-info btn-xs delete" ng-click="setLocalStorage(business.id)"><i class="fa fa-users"></i>人群管理</a>
+                                            <a ng-disabled="business.sourceFrom!=1" href="#/employee" class="btn btn-info btn-xs delete" ng-click="setLocalStorage(business.id)"><i class="fa fa-user"></i>员工管理</a>
+                                            <!-- <a href="#/msglist/{{business.id}}" class="btn btn-info btn-xs delete"><i class="fa fa-user"></i>企业发布</a> -->
+                                            <a ng-disabled="business.sourceFrom!=1" href="#/business-sms/{{business.id}}" ng-click="setBusinessInfo({'id':business.id, 'name': business.name})" class="btn btn-info btn-xs delete"><i class="fa fa-envelope-o"></i>短信发送管理</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row DTTTFooter">
+                            <pagination first-text="首页" last-text="末页" previous-text="上一页" next-text="下一页" total-items="pageInfo.totalCount" ng-model="pageInfo.pageIndex" ng-change="pageChanged()" items-per-page="pageInfo.pageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="totalPage" max-size="5" force-ellipses="true"></pagination>
+                            <div class="col-sm-6">
+                                <div class="dataTables_info" id="editabledatatable_info" role="alert" aria-live="polite" aria-relevant="all">页码: {{pageInfo.pageIndex}} / {{totalPage}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bootbox modal fade in" tabindex="-1" role="dialog" aria-hidden="false" class="business-modal" style="display: block;" ng-show="modalShow">
+        <div class="modal-dialog modal-lg">
+            <ng-form name="businessModal" id="businessModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" ng-click="closeModal()">×</button>
+                        <h4 class="modal-title" ng-if="opration=='show'">企业详情</h4>
+                        <h4 class="modal-title" ng-if="opration=='edit'">修改企业信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="bootbox-body">
+                            <div class="row" ng-if="opration=='show'">
+                                <div class="col-md-12 form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">企业名称：</label>
+                                        <div class="col-sm-9 pt-7">{{businessShow.name}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">企业类型：</label>
+                                        <div class="col-sm-9 pt-7">{{businessShow.type | businessType}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">是否校验：</label>
+                                        <div class="col-sm-9 pt-7">{{businessShow.needVerify | booleanShow}}</div>
+                                    </div>
+                                    <div class="form-group" ng-if="businessShow.needVerify==true">
+                                        <label class="col-sm-3 control-label no-padding-right">校验类型：</label>
+                                        <div class="col-sm-9 pt-7">{{businessShow.verifyTypes | businessVerifyType}}</div>
+                                    </div>
+                                    <div class="form-group" ng-if="businessShow.needVerify==true">
+                                        <label class="col-sm-3 control-label no-padding-right">是否全部校验：</label>
+                                        <div class="col-sm-9 pt-7">{{businessShow.verifyAll | booleanShow}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">创建时间：</label>
+                                        <div class="col-sm-9 pt-7">{{businessShow.gmtCreate | formatDate}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">上次修改时间：</label>
+                                        <div class="col-sm-9 pt-7">{{businessShow.gmtModified | formatDate}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">服务是否可用：</label>
+                                        <div class="col-sm-9 pt-7">{{businessShow.enable | booleanShow}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">服务开始时间：</label>
+                                        <div class="col-sm-9 pt-7">{{businessShow.startDate | formatDate}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">服务结束时间：</label>
+                                        <div class="col-sm-9 pt-7">{{businessShow.endDate | formatDate}}</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">logo：</label>
+                                        <div class="col-sm-9 pt-7 business-img-show">
+                                            <img src="{{logoShow}}" ng-show="logoShow!=''">
+                                            <span ng-show="logoShow==''">暂无</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right">启动页Logo：</label>
+                                        <div class="col-sm-9 pt-7 business-img-show">
+                                            <img src="{{startLogoShow}}" ng-show="startLogoShow!=''">
+                                            <span ng-show="startLogoShow==''">暂无</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="opration=='edit'">
+                                <div class="form-horizontal col-md-12" role="form">
+                                    <div class="form-group">
+                                        <label for="business-name" class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>企业名称</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="business-name" placeholder="请输入企业名称" ng-model="businessEdit.name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="business-type" class="col-sm-2 control-label no-padding-right">企业类型</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" ng-model="businessEdit.type">
+                                                <option value="1">企业</option>
+                                                <option value="2">会所</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right">校验</label>
+                                        <div class="col-sm-10 pt-7">
+                                            <label>
+                                                <input name="is-varify" ng-model="businessEdit.needVerify" ng-value="true" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 是 </span>
+                                            </label>
+                                            <label>
+                                                <input name="is-varify" ng-model="businessEdit.needVerify" ng-value="false" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 否</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-if="businessEdit.needVerify==true">
+                                        <label class="col-sm-2 control-label no-padding-right">校验选项</label>
+                                        <div class="col-sm-10">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="colored-blue" ng-click="test()" ng-model="verifyTypes.workNo" ng-true-value="'1'" ng-false-value="''">
+                                                    <span class="text">员工工号</span>
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="colored-blue" ng-model="verifyTypes.idNo" ng-true-value="'2'" ng-false-value="''">
+                                                    <span class="text">证件号码</span>
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" class="colored-blue" ng-model="verifyTypes.insNo" ng-true-value="'3'" ng-false-value="''">
+                                                    <span class="text">保单号/分单号</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-if="businessEdit.needVerify==true">
+                                        <label class="col-sm-2 control-label no-padding-right">是否全部校验</label>
+                                        <div class="col-sm-10 pt-7">
+                                            <label>
+                                                <input name="is-verifyAll" ng-model="businessEdit.verifyAll" ng-value="true" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 是 </span>
+                                            </label>
+                                            <label>
+                                                <input name="is-verifyAll" ng-model="businessEdit.verifyAll" ng-value="false" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 否 </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right">服务是否可用</label>
+                                        <div class="col-sm-10 pt-7">
+                                            <label>
+                                                <input name="is-enable" ng-model="businessEdit.enable" ng-value="true" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 是 </span>
+                                            </label>
+                                            <label>
+                                                <input name="is-enable" ng-model="businessEdit.enable" ng-value="false" type="radio" class="form-control colored-blue">
+                                                <span class="text"> 否 </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="business-name" class="col-sm-2 control-label no-padding-right">服务开始时间</label>
+                                        <div class="col-sm-10">
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" ng-model="businessEdit.startDate" is-open="startStatus.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="关闭" />
+                                                <span class="input-group-btn">
+                                           <button type="button" class="btn btn-default" id="startDate" ng-click="startStatusOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="business-name" class="col-sm-2 control-label no-padding-right">服务结束时间</label>
+                                        <div class="col-sm-10">
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" ng-model="businessEdit.endDate" is-open="endStatus.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="关闭" />
+                                                <span class="input-group-btn">
+                                           <button type="button" class="btn btn-default" id="endDate" ng-click="endStatusOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-offset-2 col-sm-10"><span class="fc_f00">图片仅支持png格式</span></label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right">logo</label>
+                                        <div class="col-sm-10">
+                                            <div>
+                                                <button class="btn btn-blue  modify-img">
+                                                    更改
+                                                    <input class="col-sm-8" type="file" accept="image/png" class="" onchange="angular.element(this).scope().chooseImg(this)" id="orgLogo">
+                                                </button>
+                                                <input type="hidden" ng-model="businessEdit.orgLogo">
+                                            </div>
+                                            <div class="org-img-show"><img id="" src="{{orgLogoShow}}"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right">启动页logo</label>
+                                        <div class="col-sm-10">
+                                            <div>
+                                                <button class="btn btn-blue modify-img">
+                                                    更改
+                                                    <input class="col-sm-8" type="file" accept="image/png" class="" onchange="angular.element(this).scope().chooseImg(this)" id="orgStartLogo">
+                                                </button>
+                                                <button class="btn btn-blue modify-img" ng-click="rmStartLogo()" ng-if="orgStartLogoShow">删除</button>
+                                                <input type="hidden" ng-model="businessEdit.orgStartLogo">
+                                            </div>
+                                            <div class="org-img-show"><img id="orgStartLogoShow" src="{{orgStartLogoShow}}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" ng-show="opration=='edit'">
+                        <button data-bb-handler="success" type="button" ng-disabled="businessModal.$invalid" class="btn btn-blue" ng-click="saveBusinessEdit()">保存</button>
+                    </div>
+                </div>
+                </form>
+        </div>
+    </div>
+</div>
+<!-- /Page Body -->

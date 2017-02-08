@@ -1,0 +1,158 @@
+<!-- Page Header -->
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+            数据管理
+                <small>
+                    <i class="fa fa-angle-right"></i>
+                    员工信息
+                </small>
+            </a>
+        </h1>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Page Body -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget">
+                <div class="widget-header bordered-left bordered-darkorange">
+                    <span class="widget-caption">查询信息</span>
+                </div>
+                <div class="widget-body bordered-left bordered-warning">
+                    <form class="form-horizontal">
+                        <div class="row">
+                            <div class="col-lg-5 col-sm-5 col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label no-padding-right">企业：</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" ng-model="searchParams.businessId" ng-options="business.id as business.name for business in businessList" ng-change="loadEmployee(searchParams.businessId)">
+                                            <option>请选择企业</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-sm-5 col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label no-padding-right">企业人群：</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" ng-model="searchParams.employeeTypeId" ng-options="crowd.id as crowd.text for crowd in employeeList" ng-change="searchParams.employeeTypeName=crowd.name">
+                                            <option>请选择人群</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-sm-5 col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label no-padding-right">激活状态：</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" ng-model="searchParams.activeStatus" ng-options="item.id as item.text for item in activeStatusList">
+                                           
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-sm-5 col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label no-padding-right">激活起始日期：</label>
+                                    <div class="col-sm-8">
+                                        <p class="input-group">
+                                            <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" ng-model="searchParams.startActiveDate" is-open="startDay.opened" min-date="" max-date="" datepicker-options="" date-disabled="disabledStartDay(date, mode)" close-text="关闭" placeholder="开始时间" readonly="readonly" />
+                                            <span class="input-group-btn">
+                                               <button type="button" class="btn btn-default" id="startDate" ng-click="startDayOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-sm-5 col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label no-padding-right">激活截止日期：</label>
+                                    <div class="col-sm-8">
+                                        <p class="input-group">
+                                            <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" ng-model="searchParams.endActiveDate" is-open="endDay.opened" min-date="" max-date="" datepicker-options="" date-disabled="disabledStartDay(date, mode)" close-text="关闭" placeholder="开始时间" readonly="readonly" />
+                                            <span class="input-group-btn">
+                                               <button type="button" class="btn btn-default" id="startDate" ng-click="endDayOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-sm-5 col-xs-12">
+                                <div class="buttons">
+                                    <a class="btn btn-default" ng-click="loadData('1')">查询</a>
+                                    <a class="btn btn-default" ng-click="paramsInit(); loadBusiness()">清空</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div class="widget">
+                <div class="widget-header ">
+                    <span class="widget-caption">统计数据列表</span>
+                </div>
+                <div class="widget-body">
+                    <div ng-if="!employeeInfoList || employeeInfoList.length==0">抱歉，没有查询到匹配数据</div>
+                    <div ng-if="employeeInfoList.length>0">
+                        <div class="table-toolbar">
+                            <a class="btn btn-info" ng-click="_export()"><i class="glyphicon glyphicon-export"></i>导出</a>
+                        </div>
+                        <div class="table-scrollable">
+                            <table class="table table-bordered table-striped datatable table-hover" aria-describedby="editabledatatable_info" width="auto">
+                                <thead class="bordered-blueberry">
+                                    <tr role="row">
+                                        <th>企业</th>
+                                        <th>人群</th>
+                                        <th>员工姓名</th>
+                                        <th>服务是否可用</th>
+                                        <th>证件类型</th>
+                                        <th>证件编号</th>
+                                        <th>问诊次数</th>
+                                        <th>员工状态</th>
+                                        <th>员工工号</th>
+                                        <th>激活时间</th>
+                                        <th>卡号</th>
+                                        <th>保单号/分单号</th>
+                                        <th>手机号</th>
+                                        <th>健康号</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd" ng-repeat="item in employeeInfoList">
+                                        <td>{{businessName}}</td>
+                                        <td>{{transData(item.employeeTypeId, 'employee')}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.enableDesc}}</td>
+                                        <th>{{item.identityTypeName}}</th>
+                                        <th>{{item.identityId}}</th>
+                                        <td>{{item.askCount}}</td>
+                                        <td>{{item.statusDesc}}</td>
+                                        <td>{{item.staffId}}</td>
+                                        <td>{{item.gmtActiveDate | formatDate}}</td>
+                                        <td>{{item.cardNo}}</td>
+                                        <th>{{item.insuranceId}}</th>
+                                        <th>{{item.mobile}}</th>
+                                        <th>{{item.outUserId}}</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row DTTTFooter">
+                            <pagination first-text="首页" last-text="末页" previous-text="上一页" next-text="下一页" total-items="pageInfo.totalCount" ng-model="pageInfo.pageIndex" ng-change="pageChanged()" items-per-page="pageInfo.pageCount" class="pagination-sm" boundary-links="true" rotate="false" num-pages="totalPage" max-size="5" force-ellipses="true"></pagination>
+                            <div class="col-sm-4">
+                                <div class="dataTables_info" id="editabledatatable_info" role="alert" aria-live="polite" aria-relevant="all">页码: {{pageInfo.pageIndex}} / {{totalPage}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Page Body -->

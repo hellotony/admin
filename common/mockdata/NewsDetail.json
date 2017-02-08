@@ -1,0 +1,21 @@
+{
+	"success":true,
+	"errerCode":0,
+	"errer":0,
+	"model":{
+                    "id": 1,
+                    "title": "标题一",
+                    "businessId": 333,
+                    "type": 1,
+                    "content": "内容1adfasdfasdfasdfasdfasdfiiiiii",
+                    "enable": true,
+                    "gmtCreate": 0,
+                    "gmtModified": 0,
+                    "employeeTypeNewsList": [{
+                        "employeeTypeId": 1001
+                    }, {
+                        "employeeTypeId": 1002
+                    }]
+                }
+
+}

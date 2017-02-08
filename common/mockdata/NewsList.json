@@ -1,0 +1,36 @@
+{
+                "pageInfo": {
+                    "pageCount": 1,
+                    "pageIndex":1,
+                    "totalCount":5
+                },
+                "rows": [{
+                    "id": 1,
+                    "title": "标题一",
+                    "businessId": 333,
+                    "type": 1,
+                    "content": "内容1adfasdfasdfasdfasdfasdfiiiiii",
+                    "enable": true,
+                    "gmtCreate": 0,
+                    "gmtModified": 0,
+                    "employeeTypeNewsList": [{
+                        "employeeTypeId": 1001
+                    }, {
+                        "employeeTypeId": 1002
+                    }]
+                }, {
+                    "id": 1,
+                    "title": "标题二",
+                    "businessId": 333,
+                    "type": 1,
+                    "content": "67678888888888888",
+                    "enable": true,
+                    "gmtCreate": 0,
+                    "gmtModified": 0,
+                    "employeeTypeNewsList": [{
+                        "employeeTypeId": 1001
+                    }, {
+                        "employeeTypeId": 1002
+                    }]
+                }]
+            }

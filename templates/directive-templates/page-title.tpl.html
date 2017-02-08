@@ -1,0 +1,12 @@
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+        	<a ng-if="pageTitleInfo.href" ng-href="{{pageTitleInfo.href}}">{{pageTitleInfo.title}}</a>
+        	<span ng-if="!pageTitleInfo.href">{{pageTitleInfo.title}}</span>
+        	<small ng-if="pageTitleInfo.subtitle">
+                <i class="fa fa-angle-right"></i>
+                {{pageTitleInfo.subtitle}}
+            </small>
+        </h1>
+    </div>
+</div>

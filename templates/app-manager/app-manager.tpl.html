@@ -1,0 +1,232 @@
+
+<!-- <link rel="stylesheet" type="text/css" href="assets/css/dataTables.bootstrap.css" /> -->
+<!-- Page Header -->
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+                            APP管理
+                            <small>
+                            </small>
+                        </h1>
+    </div>
+</div>
+<!-- /Page Header -->
+<!-- Page Body -->
+<div class="page-body" ng-controller="appManager">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget">
+                <div class="widget-header">
+                    <span class="widget-caption">APP信息</span>
+                </div>
+                <div class="widget-body">
+                    <div class="table-toolbar">
+                        <a ng-click="openModal()" class="btn btn-default" data-toggle="modal" data-target=".bs-example-modal-lg">创建APP信息</a>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover dataTable no-footer" aria-describedby="expandabledatatable_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 81px;"></th>
+                                <th style="width: ;">标题</th>
+                                <th style="width: ">版本信息</th>
+                                <th style="width: ;">平台信息</th>
+                                <th style="width: ;">当前版本号</th>
+                                <th style="width: ;">大小</th>
+                                <th style="width: ;">是否强制更新</th>
+                                <th style="width: ;"></th>
+                            </tr>
+                        </thead>
+                        <tbody ng-repeat="appinfo in appInfoList">
+                            <tr class="">
+                                <td class=" ">
+                                    <i class="fa row-details fa-minus-square-o" ng-if="showDetailId==appinfo.id" ng-click="showDetailTab()"></i>
+                                    <i class="fa fa-plus-square-o row-details" ng-if="showDetailId!=appinfo.id" ng-click="showDetailTab(appinfo.id)"></i>
+                                </td>
+                                <td class="sorting_1">
+                                    {{appinfo.title}}
+                                </td>
+                                <td class=" ">
+                                    {{appinfo.versionNo}}
+                                </td>
+                                <td class=" ">
+                                    {{appinfo.platform}}
+                                </td>
+                                <td class=" ">
+                                    {{appinfo.versionCode}}
+                                </td>
+                                <td class=" ">
+                                    {{appinfo.size}}
+                                </td>
+                                <td class=" ">
+                                    {{appinfo.forceUpdate | booleanShow}}
+                                </td>
+                                <td class=" ">
+                                    <a class="btn btn-info btn-xs edit" ng-click="openModal(appinfo)"><i class="fa fa-edit"></i>修改</a>
+                                </td>
+                            </tr>
+                            <tr ng-if="showDetailId==appinfo.id">
+                                <td class="details" colspan="8">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="5" style="padding:0 10px 0 0;" class="details" ng-if="appinfo.picture!=null"><img style="width:150px" src="{{tfsUrl+appinfo.picture}}"></td>
+                                                <td class="details">下载地址：</td>
+                                                <td class="details">{{appinfo.url}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="details">版本更新时间：</td>
+                                                <td class="details">{{appinfo.updateDate | formatDate}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="details">更新信息：</td>
+                                                <td class="details">{{appinfo.changeLog}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="details">上次修改时间：</td>
+                                                <td class="details">{{appinfo.gmtModified | formatDate}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="details">创建时间：</td>
+                                                <td class="details">{{appinfo.gmtCreate | formatDate}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bootbox modal fade in" tabindex="-1" role="dialog" aria-hidden="false" style="display: block;" ng-if="createAPPInfoFlag!=''">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <ng-form name="appManager" id="appManager">
+                    <div class="modal-header">
+                        <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true" ng-click="closeModal()">×</button>
+                        <h4 class="modal-title" ng-show="createAPPInfoFlag=='create'">创建APP信息</h4>
+                        <h4 class="modal-title" ng-show="createAPPInfoFlag=='modify'">修改APP信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="bootbox-body">
+                            <div class="row">
+                                <div class="col-md-12 form-horizontal">
+                                    <div class="form-group">
+                                        <label for="employee-name" class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>标题</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control input-sm" id="employee-name" ng-model="aboutUs.title" placeholder="请输入标题" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>版本信息</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control input-sm" id="" ng-model="aboutUs.versionNo" placeholder="请输入版本信息" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>当前版本号</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control input-sm" id="" ng-model="aboutUs.versionCode" placeholder="请输入当前版本号，版本号为数字" pattern="^[0-9]*$" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right"><span class="fc_f00">* </span>下载地址</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control input-sm" id="" ng-model="aboutUs.url" placeholder="请输入下载地址" pattern="(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right">大小</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control input-sm" id="" ng-model="aboutUs.size" placeholder="请输入APP大小，单位：Mb">
+                                        </div>
+                                    </div>
+                                    <!-- <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label no-padding-right">平台信息</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control input-sm" id="" ng-model="aboutUs.platform" placeholder="平台信息">
+                                    </div>
+                                </div> -->
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right">版本说明</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control input-sm" id="" ng-model="aboutUs.description" placeholder="请输入版本说明"></textarea>
+                                        </div>
+                                    </div>
+                                     <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right">更新信息</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control input-sm" id="" ng-model="aboutUs.changeLog" placeholder="请输入更新信息"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right">版本更新时间</label>
+                                        <div class="col-sm-10">
+                                            <p class="input-group">
+                                                <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" ng-model="aboutUs.updateDate" is-open="startStatus.opened" min-date="" max-date="" datepicker-options="dateOptions" date-disabled="" close-text="关闭" />
+                                                <span class="input-group-btn">
+                                                   <button type="button" class="btn btn-default" ng-click="chooseDayOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right">平台信息</label>
+                                        <div class="col-sm-10 pt-7">
+                                            <label>
+                                                <input type="radio" class="form-control colored-blue" name="appPlatform" ng-model="aboutUs.platform" ng-value="'IOS'"><span class="text"> ios </span></label>
+                                            <label>
+                                                <input type="radio" class="form-control colored-blue" name="appPlatform" ng-model="aboutUs.platform" ng-value="'ANDROID'"><span class="text"> Android </span></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right">APP是否启用</label>
+                                        <div class="col-sm-10 pt-7">
+                                            <label>
+                                                <input type="radio" class="form-control colored-blue" name="appEnable" ng-model="aboutUs.enable" ng-value="true"><span class="text"> 是 </span></label>
+                                            <label>
+                                                <input type="radio" class="form-control colored-blue" name="appEnable" ng-model="aboutUs.enable" ng-value="false"><span class="text"> 否 </span></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right">是否强制更新</label>
+                                        <div class="col-sm-10 pt-7">
+                                            <label>
+                                                <input type="radio" class="form-control colored-blue" name="appForceUpdate" ng-model="aboutUs.forceUpdate" ng-value="true"><span class="text"> 是 </span></label>
+                                            <label>
+                                                <input type="radio" class="form-control colored-blue" name="appForceUpdate" ng-model="aboutUs.forceUpdate" ng-value="false"><span class="text"> 否 </span></label>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="form-group">
+                                        <label  class="col-sm-offset-2 col-sm-10"><span class="fc_f00">图片仅支持png格式</span></label>
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label no-padding-right">二维码图片(png)</label>
+                                        <!-- <div class="col-sm-10">
+                                        <input type="file" class="form-control">
+                                    </div> -->
+                                        <div class="col-sm-10">
+                                            <div>
+                                            </div>
+                                            <button class="btn btn-blue modify-img">
+                                                <span ng-show="createAPPInfoFlag=='create'">添加</span>
+                                                <span ng-show="createAPPInfoFlag=='modify'">更改</span>
+                                                <input class="col-sm-8" type="file" accept="image/png" class="" onchange="angular.element(this).scope().chooseImg(this)" id="pictureInput">
+                                            </button>
+                                            <div class="org-img-show"><img id="pictureShow" src="{{pictureShow}}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-disabled="appManager.$invalid" type="button" class="btn btn-blue" ng-click="saveCreateEmployee()">保存</button>
+                    </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Page Body -->

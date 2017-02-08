@@ -1,0 +1,226 @@
+
+.fr{float: right;}
+
+.page-title{
+	line-height: 45px;
+	height:45px;
+	padding:0px;
+	margin: 0px;
+	padding-left:5px;
+	font-size:22px;
+}
+.fc_f00{
+	color:#f00;
+}
+.fc-fff{
+	color:#fff;
+}
+.pt-7{
+	padding-top: 7px;
+}
+
+.mr-3{
+	margin-right: 3px;
+}
+.mb-3{
+	margin-bottom: 5px;
+}
+.float-none{
+	float: none;
+}
+.float-r{
+	float: right;
+}
+.break-word{
+	word-wrap: break-word;
+}
+
+.tab-empty-info{
+	padding: 8px 0px;
+	text-align: center;
+	color: #999;
+	font-size: 24px;
+}
+
+/*** business page start***/
+.modify-img{
+	position:relative;
+	margin-bottom: 10px;
+}
+.modify-img input[type=file]{
+	opacity: 0;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+}
+.org-img-show img{
+	max-height: 200px;
+}
+#businessModal input.ng-dirty.ng-invalid, #invalid-input input.ng-dirty.ng-invalid{
+    border:1px solid red;
+}
+
+
+
+/*** business page end***/
+
+/*** business create page start ***/
+.create-business{
+	width:680px;
+	margin-top: 40px;
+}
+.business-img-show img{
+	max-width: 100%;
+}
+#businessInfoCreate input.ng-dirty.ng-invalid{
+    border:1px solid red;
+}
+/*** business create page end ****/
+
+/*** app page start ***/
+#appManager input.ng-dirty.ng-invalid{
+    border:1px solid red;
+}
+/*** app page end ***/
+#commonServiceModal input.ng-dirty.ng-invalid{
+    border:1px solid red;
+}
+#businessServiceModal input.ng-dirty.ng-invalid{
+    border:1px solid red;
+}
+#employeeModal input.ng-dirty.ng-invalid{
+    border:1px solid red;
+}
+.w_200{
+	width:200px;
+}
+.inline{
+	display: inline;
+}
+.pos-fixed{
+	position: fixed;
+}
+.bgc-333{
+	background-color: #333;
+}
+#toast{
+	z-index:1999;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0,0,0,0.55);
+	display: none;
+}
+#toast.block{
+	display: block;
+}
+/*** Overlay style start ***/
+.main-container{
+	width:100%;
+}
+.main-container:after{
+	background-color: #eee;
+}
+.modal{
+	overflow-y: scroll;
+	background: rgba(0,0,0,0.5)
+}
+.modal-content{
+	top:35px;
+	margin-bottom: 15px;
+}
+.modal-dialog ng-form.show{
+	pointer-events: none;
+}
+
+.modal-dialog ng-form.show .display_on_edit,.modal-dialog ng-form.edit .display_on_show,.modal-dialog ng-form.create .display_on_show{
+	display: none;
+}
+.modal-dialog ng-form.show input,.modal-dialog ng-form.show textarea{
+	background-color: white;
+    border-color: white;
+    box-shadow: none;
+    pointer-events: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+}
+.modal-dialog ng-form.show textarea{
+	 pointer-events: none;
+   
+}
+.modal-dialog ng-form.show .modal-header button{
+	pointer-events: all;
+}
+.modal-dialog ng-form.show .modal-body button{
+	display: none;
+}
+.modal-dialog ng-form.show input[type=checkbox]+.text:before,.modal-dialog ng-form.show input[type=radio]+.text:before{
+	display: none;
+}
+.modal-dialog ng-form.show input[type=checkbox].colored-blue:checked+.text:before,.modal-dialog ng-form.show input[type=radio].colored-blue:checked+.text:before{
+	display: none;
+}
+.modal-dialog ng-form.show input[type=checkbox]+.text,.modal-dialog ng-form.show input[type=radio]+.text{
+	display: none;
+}
+.modal-dialog ng-form.show input[type=checkbox]:checked+.text,.modal-dialog ng-form.show input[type=radio]:checked+.text{
+	display: block;
+	margin-left: 10px;
+}
+input[type=checkbox].colored-blue:checked+.text:before, input[type=radio].colored-blue:checked+.text:before{
+	padding-top: 1px;
+}
+#toast .modal-body{
+	text-align: left!important;
+	white-space: normal;
+}
+#toast .modal-footer, #success .modal-footer{
+	text-align: right!important;
+}
+#right-login-area .icon{
+	padding:0px;
+	cursor: default;
+}
+#right-login-area .txt{
+	line-height: 30px;
+}
+div.checkbox{
+	display: inline-block;
+}
+div.checkbox label{
+	padding-left: 0px;
+	padding-right: 20px;
+}
+#showcaseInfo p.input-group{
+	margin-bottom: 0px;
+}
+textarea{
+	/*resize:none;*/
+	max-width: 100%;
+}
+.form-group div{
+	word-wrap: break-word;
+}
+.dataTable tbody tr td, .dataTable thead tr th{
+	vertical-align: middle;
+}
+.dataTable tbody tr td.lh-26{
+	line-height: 26px;
+}
+.sidebar-menu li, .sidebar-menu ul li{
+	cursor: pointer;
+}
+.wizard ul li.active:before {
+	z-index: 1000
+}
+/*** Overlay style end ***/
+/*business-msg start*/
+.modal-dialog ng-form textarea{
+	height: 130px;
+}
+/*business-msg end*/
+
