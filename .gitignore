@@ -1,0 +1,86 @@
+# sbt specific
+.cache/
+.history/
+.lib/
+/dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+node_modules/
+backends/
+
+# Distributed Folders of Pyxis.
+/app/*_dist/
+/app/.*_tmp
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+
+# Folders to ignore
+.hg
+.svn
+.CVS
+
+# vagrant meta directory
+.vagrant
+
+# OS or Editor folders
+.DS_Store
+._*
+Thumbs.db
+.cache
+.tmproj
+*.esproj
+nbproject
+*.sublime-project
+*.sublime-workspace
+# Komodo
+*.komodoproject
+.komodotools
+
+*.prefs
+# Numerous always-ignore extensions
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.zip
+*.vi
+*.pfx
+*.o
+*.a
+*.so
+*.exe
+*~
+*.sass-cache
+*.ruby-version
+*.class
+
+# Eclipse
+.classpath
+.project
+.cproject
+.metadata
+.settings
+/target/
+/build/
+#/bin/
+/debug/
+#Idea Editor
+.idea
+*.iml
+
+.tmp/
+www/
+
+#Python
+__pycache__/
+*.py[cod]
+/bin/
+

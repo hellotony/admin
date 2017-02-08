@@ -1,0 +1,18 @@
+{
+  "name": "Admin",
+  "description": "A best practice of web container.",
+  "version": "0.1.0",
+  "private": true,
+  "author": {
+    "name": "tony",
+    "email": ""
+  },
+  "scripts": {
+    "postinstall": "bower install",
+    "prestart": "echo npm install",
+    "start": "http-server -a 0.0.0.0 -p 9080",
+    "pretest": "npm install",
+    "test": "node node_modules/karma/bin/karma start test/karma.config.js",
+    "test-single-run": "node node_modules/karma/bin/karma start test/karma.config.js  --single-run"
+  }
+}

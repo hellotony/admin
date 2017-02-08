@@ -1,0 +1,8 @@
+VERSION merge=ours
+bower.json merge=ours
+package.json merge=ours
+app/version.js merge=ours
+app/asuna/version.js merge=ours
+app/dna_company/version.js merge=ours
+app/dna_console/version.js merge=ours
+app/polo_external/version.js merge=ours
