@@ -1,0 +1,22 @@
+数据列表
+
+<datalist withPager="true" listItem="" dataSource=""/>
+
+参数说明：
+withPager	是否需要分页器
+listItem	$scope中的对象
+[{
+	"title":"企业id",	//表标题文案
+	"columnData":id,			//对象中字段的位置
+	"filter":"",		//过滤器，以|分隔
+	"clickItem":"funName",	//点击事件
+	"clickTitle":"funName"	//点击标题事件
+},…]
+
+
+
+遮罩
+<loading template=""/>
+
+
+<inputForm />
